@@ -33,7 +33,35 @@ const formSchema = z.object({
   Q12: z.array(z.string()).min(1, "Please select at least one answer."),
 });
 
-export default function QuizComponent({ data }) {
+interface Questions {
+  data: [
+    {
+      id:
+        | "Q1"
+        | "Q2"
+        | "Q3"
+        | "Q4"
+        | "Q5"
+        | "Q6"
+        | "Q7"
+        | "Q8"
+        | "Q9"
+        | "Q10"
+        | "Q11"
+        | "Q12"
+        | `Q9.${number}`
+        | `Q10.${number}`
+        | `Q11.${number}`
+        | `Q12.${number}`;
+      type: string;
+      question: string;
+      choices?: [string];
+    }
+  ];
+}
+
+export default function QuizComponent({ data }: Questions) {
+  console.log(data);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -110,7 +138,13 @@ export default function QuizComponent({ data }) {
   );
 }
 
-function inputType(type, field, fieldState, question, choices) {
+function inputType(
+  type: string,
+  field,
+  fieldState,
+  question: string,
+  choices: [string] | undefined
+) {
   if (type === "text") {
     return (
       <Field data-invalid={fieldState.invalid}>
@@ -135,7 +169,7 @@ function inputType(type, field, fieldState, question, choices) {
           value={field.value}
           onValueChange={field.onChange}
         >
-          {choices.map((item, index) => {
+          {choices!.map((item, index) => {
             return (
               <Field key={index} orientation="horizontal">
                 <RadioGroupItem

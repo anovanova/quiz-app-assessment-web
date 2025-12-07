@@ -1,11 +1,11 @@
 "use client";
-import { Span } from "next/dist/trace";
+
 import { useSearchParams } from "next/navigation";
 export default function GradePage() {
   const searchParams = useSearchParams();
 
   const data = searchParams.get("data");
-  const parsedData = JSON.parse(data);
+  const parsedData = JSON.parse(data!);
 
   return (
     <div className="flex min-h-screen items-center justify-center font-sans dark:bg-black">
@@ -20,20 +20,22 @@ export default function GradePage() {
           <h1 className="text-2xl font-bold">Results</h1>
         </div>
         <div className="w-full">
-          {parsedData.response.results.map((item, index) => {
-            return (
-              <div className="grid grid-cols-2" key={index}>
-                <div className="text-center font-bold">{item.id}</div>
-                <div className="text-center">
-                  {item.correct ? (
-                    <p className="text-green-600 font-bold">Correct</p>
-                  ) : (
-                    <p className="text-red-600 font-bold">Incorrect</p>
-                  )}
+          {parsedData.response.results.map(
+            (item: { id: string; correct: boolean }, index: number) => {
+              return (
+                <div className="grid grid-cols-2" key={index}>
+                  <div className="text-center font-bold">{item.id}</div>
+                  <div className="text-center">
+                    {item.correct ? (
+                      <p className="text-green-600 font-bold">Correct</p>
+                    ) : (
+                      <p className="text-red-600 font-bold">Incorrect</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            }
+          )}
         </div>
       </main>
     </div>
