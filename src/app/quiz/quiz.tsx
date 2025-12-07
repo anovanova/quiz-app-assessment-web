@@ -78,7 +78,6 @@ interface Questions {
 }
 
 export default function QuizComponent({ data }: Questions) {
-  console.log(data);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
