@@ -2,7 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import {
+  Controller,
+  ControllerRenderProps,
+  FieldValues,
+  useForm,
+} from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -27,10 +32,22 @@ const formSchema = z.object({
   Q6: z.string().min(1, "Answer is required").optional(),
   Q7: z.string().min(1, "Answer is required").optional(),
   Q8: z.string().min(1, "Answer is required").optional(),
-  Q9: z.array(z.string()).min(1, "Please select at least one answer."),
-  Q10: z.array(z.string()).min(1, "Please select at least one answer."),
-  Q11: z.array(z.string()).min(1, "Please select at least one answer."),
-  Q12: z.array(z.string()).min(1, "Please select at least one answer."),
+  Q9: z
+    .array(z.string())
+    .min(1, "Please select at least one answer.")
+    .optional(),
+  Q10: z
+    .array(z.string())
+    .min(1, "Please select at least one answer.")
+    .optional(),
+  Q11: z
+    .array(z.string())
+    .min(1, "Please select at least one answer.")
+    .optional(),
+  Q12: z
+    .array(z.string())
+    .min(1, "Please select at least one answer.")
+    .optional(),
 });
 
 interface Questions {
@@ -140,8 +157,14 @@ export default function QuizComponent({ data }: Questions) {
 
 function inputType(
   type: string,
-  field,
-  fieldState,
+  field: ControllerRenderProps<FieldValues, string>,
+  fieldState: {
+    invalid: boolean;
+    isTouched?: boolean;
+    isDirty?: boolean;
+    isValidating?: boolean;
+    error?: { message?: string | undefined } | undefined;
+  },
   question: string,
   choices: [string] | undefined
 ) {
@@ -195,7 +218,7 @@ function inputType(
         <i className="font-light"> (Select all that apply)</i>
       </FieldLegend>
       <FieldGroup data-slot="checkbox-group">
-        {choices.map((item, index) => {
+        {choices!.map((item, index) => {
           return (
             <Field
               key={index}
@@ -210,7 +233,7 @@ function inputType(
                 onCheckedChange={(checked) => {
                   const newValue = checked
                     ? [...field.value, item]
-                    : field.value.filter((value) => value !== item);
+                    : field.value.filter((value: string) => value !== item);
                   field.onChange(newValue);
                 }}
               />
