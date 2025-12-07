@@ -18,19 +18,37 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture notes
 
-## Learn More
+Node is full featured but slower compared to Edge,
 
-To learn more about Next.js, take a look at the following resources:
+if you need performance, choose Edge, if you need the access to all npm packages, choose Node
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+App Router is the modern routing system for Next, it default to Server Components, the result is less client side bundles, and better performance
+because of its server-centeric nature compares to Pages Router
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+App router uses folder-based structure while Pages Router uses file-based structure
 
-## Deploy on Vercel
+If you want performance and modern way approach, use App Router
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If you want a simple website/application, Use Pages Router
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Validation approach
+
+I used zod for validating user inputs in forms
+
+## Libraries used and rationale
+
+shadcnui for UI components, to develop faster
+
+zod for validation
+
+## Trade-offs and shortcuts taken
+
+I've used shadcnui for UI components to develop the features even faster, shadcnui uses TailwindCSS for styling.
+
+alse used zod for validation
+
+## Time Spent
+
+15+ Hours
